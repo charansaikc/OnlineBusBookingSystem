@@ -1,0 +1,49 @@
+﻿@model IEnumerable<OnlineBusBookingSystem.Models.BusListModel>
+
+@{
+    ViewBag.Title = "BusList";
+}
+<div class="row">
+    <div class="card">
+        <div class="card-header">
+            Bus List
+        </div>
+        <div class="card-body">
+            <p>
+                @Html.ActionLink("Add New", "CreateBusList")
+            </p>
+            <table class="table example">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BusNo)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BusName)
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.BusNo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.BusName)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "EditBusList", new {  id=item.BusNo  }) |
+                                @Html.ActionLink("Delete", "DeleteBusList", new {  id=item.BusNo  })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

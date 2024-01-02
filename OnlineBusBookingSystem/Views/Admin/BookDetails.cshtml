@@ -1,0 +1,92 @@
+﻿@model OnlineBusBookingSystem.Models.ScheduleModel
+
+@{
+    ViewBag.Title = "BookDetails";
+}
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="card">
+            <div class="card-body">
+                Book Details
+
+                <div>
+                    <hr />
+                    <dl class="dl-horizontal">
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.BusName)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.BusName)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Departure)
+                        </dt>
+
+                        <dd>
+                            @Model.Departure
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Arrival)
+                        </dt>
+
+                        <dd>
+                            @Model.Arrival
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Availability)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Availability)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.FromLocation)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.FromLocation)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.ToLocation)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.ToLocation)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Seat)
+                        </dt>
+
+                        <dd>
+                            @Html.HiddenFor(model => model.ScheduleId)
+                            @Html.HiddenFor(model => model.BusName)
+                            @Html.HiddenFor(model => model.BusId)
+                            @Html.HiddenFor(model => model.Price)
+                            @Html.HiddenFor(model => model.FromLocation)
+                            @Html.HiddenFor(model => model.ToLocation)
+                            @Html.HiddenFor(model => model.Arrival)
+                            @Html.HiddenFor(model => model.Departure)
+                            @Html.HiddenFor(model => model.FromLocationId)
+                            @Html.HiddenFor(model => model.ToLocationId)
+                            @Html.HiddenFor(model => model.Availability)
+                            @Html.TextBoxFor(model => model.Seat, new { @class = "form-control",@type="number" })
+                            @Html.ValidationMessageFor(model => model.Seat, "", new { @class = "text-danger" })
+                        </dd>
+
+                    </dl>
+                </div>
+                <p>
+                    <button type="submit">Book</button>
+                </p>
+            </div>
+        </div>
+    </div>
+}

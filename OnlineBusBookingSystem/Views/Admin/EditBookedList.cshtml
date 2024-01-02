@@ -1,0 +1,100 @@
+﻿@model OnlineBusBookingSystem.Models.BookedListModel
+
+@{
+    ViewBag.Title = "EditBookedList";
+}
+<div class="row">
+    <div class="card">
+        <div class="card-header">
+            <h2>Edit Booked List</h2>
+        </div>
+        <div class="card-body">
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BusName, htmlAttributes: new { @class = "control-label fw-bold col-md-2" })
+                    <div class="col-md-10">
+                        @Html.HiddenFor(model=>model.ReferenceNo)
+                        @Html.DisplayFor(model => model.BusName, new { htmlAttributes = new { @class = "form-control",@readonly="" } })
+                        @Html.ValidationMessageFor(model => model.BusName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FromLocation, htmlAttributes: new { @class = "control-label fw-bold col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.FromLocation, new { htmlAttributes = new { @class = "form-control", @readonly = "" } })
+                        @Html.ValidationMessageFor(model => model.FromLocation, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ToLocation, htmlAttributes: new { @class = "control-label fw-bold col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.ToLocation, new { htmlAttributes = new { @class = "form-control", @readonly = "" } })
+                        @Html.ValidationMessageFor(model => model.ToLocation, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Departure, htmlAttributes: new { @class = "control-label fw-bold col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.Departure, new { htmlAttributes = new { @class = "form-control", @readonly = "" } })
+                        @Html.ValidationMessageFor(model => model.Departure, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Arrival, htmlAttributes: new { @class = "control-label fw-bold col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.Arrival, new { htmlAttributes = new { @class = "form-control", @readonly = "" } })
+                        @Html.ValidationMessageFor(model => model.Arrival, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label fw-bold col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @readonly = "" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Qty, htmlAttributes: new { @class = "control-label fw-bold col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.Qty, new { htmlAttributes = new { @class = "form-control", @readonly = "" } })
+                        @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label fw-bold col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.Status, Model.AvailablePaymentStatus, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Save" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+            }
+
+            <div>
+                @Html.ActionLink("Back to List", "BookedList")
+            </div>
+
+            @section Scripts {
+                @Scripts.Render("~/bundles/jqueryval")
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,410 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BusDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BookedList">
+          <Key>
+            <PropertyRef Name="ReferenceNo" />
+          </Key>
+          <Property Name="BusId" Type="int" Nullable="false" />
+          <Property Name="ReferenceNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="ScheduleId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Qty" Type="int" Nullable="false" />
+          <Property Name="Amount" Type="int" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsCancelled" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BusList">
+          <Key>
+            <PropertyRef Name="BusNo" />
+          </Key>
+          <Property Name="BusNo" Type="int" Nullable="false" />
+          <Property Name="BusName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LocationList">
+          <Key>
+            <PropertyRef Name="LocationId" />
+          </Key>
+          <Property Name="LocationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Terminal" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="State" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Schedule">
+          <Key>
+            <PropertyRef Name="ScheduleId" />
+          </Key>
+          <Property Name="BusId" Type="int" Nullable="false" />
+          <Property Name="ScheduleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BusName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FromLocationId" Type="int" Nullable="false" />
+          <Property Name="ToLocationId" Type="int" Nullable="false" />
+          <Property Name="Departure" Type="datetime" Nullable="false" />
+          <Property Name="Arrival" Type="datetime" Nullable="false" />
+          <Property Name="Availability" Type="int" Nullable="false" />
+          <Property Name="Price" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Role" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_BookedList_BusList">
+          <End Role="BusList" Type="Self.BusList" Multiplicity="1" />
+          <End Role="BookedList" Type="Self.BookedList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusList">
+              <PropertyRef Name="BusNo" />
+            </Principal>
+            <Dependent Role="BookedList">
+              <PropertyRef Name="BusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookedList_Schedule">
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="1" />
+          <End Role="BookedList" Type="Self.BookedList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schedule">
+              <PropertyRef Name="ScheduleId" />
+            </Principal>
+            <Dependent Role="BookedList">
+              <PropertyRef Name="ScheduleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookedList_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="BookedList" Type="Self.BookedList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BookedList">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Schedule_LocationList">
+          <End Role="LocationList" Type="Self.LocationList" Multiplicity="1" />
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LocationList">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="FromLocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Schedule_LocationList1">
+          <End Role="LocationList" Type="Self.LocationList" Multiplicity="1" />
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LocationList">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="ToLocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BusDBModelStoreContainer">
+          <EntitySet Name="BookedList" EntityType="Self.BookedList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BusList" EntityType="Self.BusList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LocationList" EntityType="Self.LocationList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Schedule" EntityType="Self.Schedule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BookedList_BusList" Association="Self.FK_BookedList_BusList">
+            <End Role="BusList" EntitySet="BusList" />
+            <End Role="BookedList" EntitySet="BookedList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookedList_Schedule" Association="Self.FK_BookedList_Schedule">
+            <End Role="Schedule" EntitySet="Schedule" />
+            <End Role="BookedList" EntitySet="BookedList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookedList_User" Association="Self.FK_BookedList_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="BookedList" EntitySet="BookedList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Schedule_LocationList" Association="Self.FK_Schedule_LocationList">
+            <End Role="LocationList" EntitySet="LocationList" />
+            <End Role="Schedule" EntitySet="Schedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Schedule_LocationList1" Association="Self.FK_Schedule_LocationList1">
+            <End Role="LocationList" EntitySet="LocationList" />
+            <End Role="Schedule" EntitySet="Schedule" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BusDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BookedList">
+          <Key>
+            <PropertyRef Name="ReferenceNo" />
+          </Key>
+          <Property Name="BusId" Type="Int32" Nullable="false" />
+          <Property Name="ReferenceNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Qty" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="BusList" Relationship="Self.FK_BookedList_BusList" FromRole="BookedList" ToRole="BusList" />
+          <Property Name="ScheduleId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Schedule" Relationship="BusDBModel.FK_BookedList_Schedule" FromRole="BookedList" ToRole="Schedule" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="BusDBModel.FK_BookedList_User" FromRole="BookedList" ToRole="User" />
+          <Property Name="IsCancelled" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BusList">
+          <Key>
+            <PropertyRef Name="BusNo" />
+          </Key>
+          <Property Name="BusNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="BusName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="BookedLists" Relationship="Self.FK_BookedList_BusList" FromRole="BusList" ToRole="BookedList" />
+          <NavigationProperty Name="Schedules" Relationship="Self.FK_Schedule_BusList" FromRole="BusList" ToRole="Schedule" />
+        </EntityType>
+        <EntityType Name="LocationList">
+          <Key>
+            <PropertyRef Name="LocationId" />
+          </Key>
+          <Property Name="LocationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Terminal" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Schedules" Relationship="BusDBModel.FK_Schedule_LocationList" FromRole="LocationList" ToRole="Schedule" />
+          <NavigationProperty Name="Schedules1" Relationship="BusDBModel.FK_Schedule_LocationList1" FromRole="LocationList" ToRole="Schedule" />
+        </EntityType>
+        <EntityType Name="Schedule">
+          <Key>
+            <PropertyRef Name="ScheduleId" />
+          </Key>
+          <Property Name="BusId" Type="Int32" Nullable="false" />
+          <Property Name="ScheduleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BusName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Departure" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Arrival" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Availability" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BusList" Relationship="Self.FK_Schedule_BusList" FromRole="Schedule" ToRole="BusList" />
+          <Property Name="FromLocationId" Type="Int32" Nullable="false" />
+          <Property Name="ToLocationId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BookedLists" Relationship="BusDBModel.FK_BookedList_Schedule" FromRole="Schedule" ToRole="BookedList" />
+          <NavigationProperty Name="LocationList" Relationship="BusDBModel.FK_Schedule_LocationList" FromRole="Schedule" ToRole="LocationList" />
+          <NavigationProperty Name="LocationList1" Relationship="BusDBModel.FK_Schedule_LocationList1" FromRole="Schedule" ToRole="LocationList" />
+        </EntityType>
+        <Association Name="FK_BookedList_BusList">
+          <End Role="BusList" Type="Self.BusList" Multiplicity="1" />
+          <End Role="BookedList" Type="Self.BookedList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusList">
+              <PropertyRef Name="BusNo" />
+            </Principal>
+            <Dependent Role="BookedList">
+              <PropertyRef Name="BusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Schedule_BusList">
+          <End Role="BusList" Type="Self.BusList" Multiplicity="1" />
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusList">
+              <PropertyRef Name="BusNo" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="BusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BusDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BookedLists" EntityType="Self.BookedList" />
+          <EntitySet Name="BusLists" EntityType="Self.BusList" />
+          <EntitySet Name="LocationLists" EntityType="Self.LocationList" />
+          <EntitySet Name="Schedules" EntityType="Self.Schedule" />
+          <AssociationSet Name="FK_BookedList_BusList" Association="Self.FK_BookedList_BusList">
+            <End Role="BusList" EntitySet="BusLists" />
+            <End Role="BookedList" EntitySet="BookedLists" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Schedule_BusList" Association="Self.FK_Schedule_BusList">
+            <End Role="BusList" EntitySet="BusLists" />
+            <End Role="Schedule" EntitySet="Schedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookedList_Schedule" Association="BusDBModel.FK_BookedList_Schedule">
+            <End Role="Schedule" EntitySet="Schedules" />
+            <End Role="BookedList" EntitySet="BookedLists" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Schedule_LocationList" Association="BusDBModel.FK_Schedule_LocationList">
+            <End Role="LocationList" EntitySet="LocationLists" />
+            <End Role="Schedule" EntitySet="Schedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Schedule_LocationList1" Association="BusDBModel.FK_Schedule_LocationList1">
+            <End Role="LocationList" EntitySet="LocationLists" />
+            <End Role="Schedule" EntitySet="Schedules" />
+          </AssociationSet>
+          <EntitySet Name="Users" EntityType="BusDBModel.User" />
+          <AssociationSet Name="FK_BookedList_User" Association="BusDBModel.FK_BookedList_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="BookedList" EntitySet="BookedLists" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="FK_BookedList_Schedule">
+          <End Type="BusDBModel.Schedule" Role="Schedule" Multiplicity="1" />
+          <End Type="BusDBModel.BookedList" Role="BookedList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schedule">
+              <PropertyRef Name="ScheduleId" />
+            </Principal>
+            <Dependent Role="BookedList">
+              <PropertyRef Name="ScheduleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Schedule_LocationList">
+          <End Type="BusDBModel.LocationList" Role="LocationList" Multiplicity="1" />
+          <End Type="BusDBModel.Schedule" Role="Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LocationList">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="FromLocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Schedule_LocationList1">
+          <End Type="BusDBModel.LocationList" Role="LocationList" Multiplicity="1" />
+          <End Type="BusDBModel.Schedule" Role="Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LocationList">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="ToLocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Role" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="BookedLists" Relationship="BusDBModel.FK_BookedList_User" FromRole="User" ToRole="BookedList" />
+        </EntityType>
+        <Association Name="FK_BookedList_User">
+          <End Type="BusDBModel.User" Role="User" Multiplicity="1" />
+          <End Type="BusDBModel.BookedList" Role="BookedList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BookedList">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BusDBModelStoreContainer" CdmEntityContainer="BusDBEntities">
+          <EntitySetMapping Name="BookedLists">
+            <EntityTypeMapping TypeName="BusDBModel.BookedList">
+              <MappingFragment StoreEntitySet="BookedList">
+                <ScalarProperty Name="IsCancelled" ColumnName="IsCancelled" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ScheduleId" ColumnName="ScheduleId" />
+                <ScalarProperty Name="BusId" ColumnName="BusId" />
+                <ScalarProperty Name="ReferenceNo" ColumnName="ReferenceNo" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BusLists">
+            <EntityTypeMapping TypeName="BusDBModel.BusList">
+              <MappingFragment StoreEntitySet="BusList">
+                <ScalarProperty Name="BusNo" ColumnName="BusNo" />
+                <ScalarProperty Name="BusName" ColumnName="BusName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LocationLists">
+            <EntityTypeMapping TypeName="BusDBModel.LocationList">
+              <MappingFragment StoreEntitySet="LocationList">
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="Terminal" ColumnName="Terminal" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Schedules">
+            <EntityTypeMapping TypeName="BusDBModel.Schedule">
+              <MappingFragment StoreEntitySet="Schedule">
+                <ScalarProperty Name="ToLocationId" ColumnName="ToLocationId" />
+                <ScalarProperty Name="FromLocationId" ColumnName="FromLocationId" />
+                <ScalarProperty Name="BusId" ColumnName="BusId" />
+                <ScalarProperty Name="ScheduleId" ColumnName="ScheduleId" />
+                <ScalarProperty Name="BusName" ColumnName="BusName" />
+                <ScalarProperty Name="Departure" ColumnName="Departure" />
+                <ScalarProperty Name="Arrival" ColumnName="Arrival" />
+                <ScalarProperty Name="Availability" ColumnName="Availability" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="BusDBModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

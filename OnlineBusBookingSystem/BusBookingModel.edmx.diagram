@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b6950776a41b46ac8d5ace458812bc21" Name="Diagram1">
+        <EntityTypeShape EntityType="BusDBModel.BookedList" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BusDBModel.BusList" Width="1.5" PointX="0.75" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BusDBModel.LocationList" Width="1.5" PointX="5.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BusDBModel.Schedule" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
+        <AssociationConnector Association="BusDBModel.FK_BookedList_BusList" ManuallyRouted="false" />
+        <AssociationConnector Association="BusDBModel.FK_Schedule_BusList" ManuallyRouted="false" />
+        <AssociationConnector Association="BusDBModel.FK_BookedList_Schedule" />
+        <AssociationConnector Association="BusDBModel.FK_Schedule_LocationList" />
+        <AssociationConnector Association="BusDBModel.FK_Schedule_LocationList1" />
+        <EntityTypeShape EntityType="BusDBModel.User" Width="1.5" PointX="8.375" PointY="0.75" />
+        <AssociationConnector Association="BusDBModel.FK_BookedList_User" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

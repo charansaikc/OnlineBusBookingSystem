@@ -1,0 +1,90 @@
+﻿@model IEnumerable<OnlineBusBookingSystem.Models.ScheduleModel>
+
+@{
+    ViewBag.Title = "ScheduleList";
+}
+<div class="row">
+    <div class="card">
+        <div class="card-body">
+            @if (Session["Role"] != null && Session["Role"].ToString() == "admin")
+            {
+                <p>
+                    @Html.ActionLink("Add New", "CreateScheduleList")
+                </p>
+            }
+
+            <table class="table example">
+                <thead>
+                    <tr>
+                        <th>
+                            #
+                        </th>
+                        <th>
+                            Bus
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Location)
+                        </th>
+                        <th>
+                            Departure
+                        </th>
+                        <th>
+                            Arrival
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Availability)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Price)
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ScheduleId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.BusName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Location)
+                            </td>
+                            <td>
+                                @item.Departure
+                            </td>
+                            <td>
+                                @item.Arrival
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Availability)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Price)
+                            </td>
+                            @if (Session["Role"] != null && Session["Role"].ToString() == "admin")
+                            {
+                                <td>
+                                    @Html.ActionLink("Edit", "EditScheduleList", new { id = item.ScheduleId }) |
+
+                                    @Html.ActionLink("Delete", "DeleteScheduleList", new { id = item.ScheduleId })
+                                </td>
+                            }
+                            @if (Session["Role"] != null && Session["Role"].ToString() == "user")
+                            {
+                                <td>
+                                    @Html.ActionLink("Book Now", "BookDetails", new { id = item.ScheduleId })
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
